@@ -53,8 +53,16 @@ public:
 		//draw model
 		glBindVertexArray(clockArray);
 		
+		
 		glm::mat4 ident = glm::mat4(1.0f);
-		glUniformMatrix4fv(transformSlot, 1, GL_FALSE, &ident[0][0]);
+
+		glm::mat4 scaler = ident;
+		if( world.scaleEnabled() )
+		{
+			scaler = glm::scale(glm::mat4(1.0f), glm::vec3(0.2, 0.2, 0.2));
+		}
+		glm::mat4 fin = ident * scaler;
+		glUniformMatrix4fv(transformSlot, 1, GL_FALSE, &fin[0][0]);
 		glDrawArrays(GL_LINE_LOOP, model.getObjectStart(0), model.getObjectSize(0));
 
 		//glm::mat4 rot = glm::rotate(glm::mat4(1.0f), time, glm::vec3(0, 1, 1));
@@ -64,17 +72,19 @@ public:
 		for(float i = 0 ; i < 12 ; ++i)
 		{
 			glm::mat4 rot = glm::rotate(glm::mat4(1.0f), (float)(i * M_PI / 6.0f), glm::vec3(0,0,1));
-			glm::mat4 fin = rot * trans;
+			fin = scaler * rot * trans;
 			glUniformMatrix4fv(transformSlot, 1, GL_FALSE, &fin[0][0]);
 			glDrawArrays(GL_LINES, model.getObjectStart(1), model.getObjectSize(1));
 		}
 
 		glm::mat4 rot = glm::rotate(glm::mat4(1.0f), -time / 2, glm::vec3(0, 0, 1));
-		glUniformMatrix4fv(transformSlot, 1, GL_FALSE, &rot[0][0]);
+		fin = rot * scaler;
+		glUniformMatrix4fv(transformSlot, 1, GL_FALSE, &fin[0][0]);
 		glDrawArrays(GL_LINES, model.getObjectStart(2), model.getObjectSize(2));
 
 		rot = glm::rotate(glm::mat4(1.0f), -time * 6, glm::vec3(0, 0, 1));
-		glUniformMatrix4fv(transformSlot, 1, GL_FALSE, &rot[0][0]);
+		fin = rot * scaler;
+		glUniformMatrix4fv(transformSlot, 1, GL_FALSE, &fin[0][0]);
 		glDrawArrays(GL_LINES, model.getObjectStart(3), model.getObjectSize(3));
 
 		/*glm::mat4 ident = glm::mat4(1.0f);
