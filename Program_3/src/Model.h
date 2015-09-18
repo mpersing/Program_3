@@ -21,7 +21,11 @@ public:
 		beginObject();
 		//TODO build a clock outline centered at the origin with radius 0.9
 		//for each 2D vertex you insert, add a addOutlineColor() entry
-		
+		for (float i = 0; i < M_PI * 2; i+= .01) {
+			positions.push_back(cos(i));
+			positions.push_back(sin(i));
+			addOutlineColor();
+		}
 		
 		//single tick mark
 		beginObject();
