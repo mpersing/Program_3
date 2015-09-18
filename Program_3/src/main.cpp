@@ -61,9 +61,17 @@ private:
 			
 			//TODO add event handlers for qwer
 			//'q' should scale
+			if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Q))
+				state.toggleScale();
 			//'w' should enable bouncing
+			if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::W))
+				state.toggleTranslate();
 			//'e' should enable z rotation
+			if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::E))
+				state.toggleRotZ();
 			//'r' should enable y rotation
+			if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::R))
+				state.toggleRotY();
 		}
 	}
 	
