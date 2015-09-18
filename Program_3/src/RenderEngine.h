@@ -57,35 +57,47 @@ public:
 		glm::mat4 ident = glm::mat4(1.0f);
 
 		glm::mat4 scaler = ident;
+		glm::mat4 translator = ident;
+
+		//scale if enabled
 		if( world.scaleEnabled() )
 		{
 			scaler = glm::scale(glm::mat4(1.0f), glm::vec3(0.2, 0.2, 0.2));
 		}
-		glm::mat4 fin = ident * scaler;
-		glUniformMatrix4fv(transformSlot, 1, GL_FALSE, &fin[0][0]);
+		if (world.translateEnabled())
+		{
+			translator = glm::translate(glm::mat4(1.0f), glm::vec3(0.2, 0.2, 0));
+		}
+
+		glm::mat4 base = scaler * translator;
+		glm::mat4 fin;
+		glUniformMatrix4fv(transformSlot, 1, GL_FALSE, &base[0][0]);
 		glDrawArrays(GL_LINE_LOOP, model.getObjectStart(0), model.getObjectSize(0));
 
 		//glm::mat4 rot = glm::rotate(glm::mat4(1.0f), time, glm::vec3(0, 1, 1));
 		//glUniformMatrix4fv(transformSlot, 1, GL_FALSE, &rot[0][0]);
 		
+		//draw tick marks
 		glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(0.7, 0, 0));
 		for(float i = 0 ; i < 12 ; ++i)
 		{
 			glm::mat4 rot = glm::rotate(glm::mat4(1.0f), (float)(i * M_PI / 6.0f), glm::vec3(0,0,1));
-			fin = scaler * rot * trans;
+			fin = base * rot * trans;
 			glUniformMatrix4fv(transformSlot, 1, GL_FALSE, &fin[0][0]);
 			glDrawArrays(GL_LINES, model.getObjectStart(1), model.getObjectSize(1));
 		}
 
+		//animate hands
 		glm::mat4 rot = glm::rotate(glm::mat4(1.0f), -time / 2, glm::vec3(0, 0, 1));
-		fin = rot * scaler;
+		fin = base * rot;
 		glUniformMatrix4fv(transformSlot, 1, GL_FALSE, &fin[0][0]);
 		glDrawArrays(GL_LINES, model.getObjectStart(2), model.getObjectSize(2));
 
 		rot = glm::rotate(glm::mat4(1.0f), -time * 6, glm::vec3(0, 0, 1));
-		fin = rot * scaler;
+		fin = base * rot;
 		glUniformMatrix4fv(transformSlot, 1, GL_FALSE, &fin[0][0]);
 		glDrawArrays(GL_LINES, model.getObjectStart(3), model.getObjectSize(3));
+
 
 		/*glm::mat4 ident = glm::mat4(1.0f);
 		glUniformMatrix4fv(transformSlot, 1, GL_FALSE, &ident[0][0]);

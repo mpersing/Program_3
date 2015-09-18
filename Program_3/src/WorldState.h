@@ -85,12 +85,12 @@ public:
 		xPos += xVel * elapsed;
 		yPos += yVel * elapsed;
 
-		if (xPos == -1 || xPos == 1) {
+		/*if (xPos == -1 || xPos == 1) {
 			xVel *= -1;
 		}
 		if (yPos == -1 || yPos == 1) {
 			yVel *= -1;
-		}
+		} */
 		
 		this->currentTime = t;
 	}
