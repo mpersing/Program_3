@@ -66,7 +66,7 @@ public:
 		}
 		if (world.translateEnabled())
 		{
-			translator = glm::translate(glm::mat4(1.0f), glm::vec3(0.2, 0.2, 0));
+			translator = glm::translate(glm::mat4(1.0f), glm::vec3(world.getXPos(), world.getYPos(), 0));
 		}
 
 		glm::mat4 base = scaler * translator;
