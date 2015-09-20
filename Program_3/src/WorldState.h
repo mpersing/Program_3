@@ -79,16 +79,31 @@ public:
 	void timeStep(float t)
 	{
 		float elapsed = t - this->currentTime;
+
+		float edge = 0; 
+		if (scale)
+			edge = 1 / 0.2;
 		
 		//TODO compute new position and velocity
 		//be sure to account for the elapsed time
-		xPos += xVel * .0001;
-		yPos += yVel * .0001;
+		xPos += xVel * elapsed;
+		yPos += yVel * elapsed;
 
-		if (xPos < -1 || xPos > 1) {
+		if (xPos <= -edge) {
+			xPos = -edge;
 			xVel *= -1;
 		}
-		if (yPos < -1 || yPos > 1) {
+		else if (xPos >= edge) {
+			xPos = edge;
+			xVel *= -1;
+		}
+
+		if (yPos <= -edge) {
+			yPos = -edge;
+			yVel *= -1;
+		}
+		else if (yPos >= edge) {
+			yPos = edge;
 			yVel *= -1;
 		}
 		
