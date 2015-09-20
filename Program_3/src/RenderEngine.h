@@ -58,6 +58,8 @@ public:
 
 		glm::mat4 scaler = ident;
 		glm::mat4 translator = ident;
+		glm::mat4 yRot = ident;
+		glm::mat4 zRot = ident;
 
 		//scale if enabled
 		if( world.scaleEnabled() )
@@ -68,8 +70,16 @@ public:
 		{
 			translator = glm::translate(glm::mat4(1.0f), glm::vec3(world.getXPos(), world.getYPos(), 0));
 		}
+		if (world.rotZEnabled())
+		{
+			zRot = glm::rotate(glm::mat4(1.0f), world.getCurrentTime(), glm::vec3(0,0,1));
+		}
+		if (world.rotYEnabled())
+		{
+			yRot = glm::rotate(glm::mat4(1.0f), world.getCurrentTime(), glm::vec3(0,1,0));
+		}
 
-		glm::mat4 base = scaler * translator;
+		glm::mat4 base = scaler * translator * yRot * zRot;
 		glm::mat4 fin;
 		glUniformMatrix4fv(transformSlot, 1, GL_FALSE, &base[0][0]);
 		glDrawArrays(GL_LINE_LOOP, model.getObjectStart(0), model.getObjectSize(0));
