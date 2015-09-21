@@ -1,5 +1,5 @@
-#define USER1 "put_username1_here"
-#define USER2 "put_username2_here"
+#define USER1 "persinme"
+#define USER2 "robinsat"
 
 #include <stdio.h>
 #include <stdlib.h>
